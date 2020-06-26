@@ -5,6 +5,7 @@ const ObjectId = require('mongodb').ObjectID;
 async function createPost(req,res){
    
     const {title,body} = req.body
+    const image = req.file.path
     
     if(!title || !body){
         res.status(422).json({error:"Please add all the fields"})
@@ -12,7 +13,8 @@ async function createPost(req,res){
     const Post = new post({
         title,
         body,
-        postedBy:req.userData
+        photo:image,
+        postedBy:req.userData._id
     })
 
     const result = await Post.save();    
